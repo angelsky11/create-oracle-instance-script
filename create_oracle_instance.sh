@@ -55,7 +55,7 @@ function main {
 	
 	local responseCode=$(cat res.json | jq .status)
 	
-	if [ $responseCode = 200 ]
+	if [ $responseCode = 201 ]
 		then
 			echo -e 'INSTANCE CREATED SUCCESSED'
 			# 发送通知

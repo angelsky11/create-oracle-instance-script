@@ -59,6 +59,10 @@ function main {
 	
 	if [[ "${array[@]}" =~ "$responseCode" ]]
 		then
+			echo -e 'INSTANCE CREATED FAILED'
+			echo -e 'ErrorCode='$(cat res.json | jq .code)
+			echo -e 'ErrorMessage='$(cat res.json | jq .message)
+	else
 			echo -e 'INSTANCE CREATED SUCCESSED'
 			# 发送通知
 			if [ $NOTIFICATION != 0 ]
@@ -69,10 +73,6 @@ function main {
 			fi
 			echo -e $desp
 			sed -i '/create_oracle_instance.sh/d' /var/spool/cron/root
-	else
-			echo -e 'INSTANCE CREATED FAILED'
-			echo -e 'ErrorCode='$(cat res.json | jq .code)
-			echo -e 'ErrorMessage='$(cat res.json | jq .message)
 	fi
 	
 	rm res.json -rf

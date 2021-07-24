@@ -57,7 +57,7 @@ function main {
 	
 	local responseCode=$(cat res.json | jq .status)
 	
-	if [[ "${array[@]}" =~ "$responseCode" ]]
+	if [[ "${ERRORCODE[@]}" =~ "$responseCode" ]]
 		then
 			echo -e 'INSTANCE CREATED FAILED'
 			echo -e 'ErrorCode='$(cat res.json | jq .code)

@@ -29,6 +29,8 @@ USERID=YOUR_USERID
 
 # 此行以下不用修改
 
+ERRORCODE=(400 401 403 404 405 409 412 413 422 429 431 500 501 503)
+
 option="${1}"
 case $option in
 	-c) 
@@ -55,7 +57,7 @@ function main {
 	
 	local responseCode=$(cat res.json | jq .status)
 	
-	if [ $responseCode = 201 ]
+	if [[ "${array[@]}" =~ "$responseCode" ]]
 		then
 			echo -e 'INSTANCE CREATED SUCCESSED'
 			# 发送通知
@@ -66,6 +68,7 @@ function main {
 				notification "${text}" "${desp}"
 			fi
 			echo -e $desp
+			sed -i '/create_oracle_instance.sh/d' /var/spool/cron/root
 	else
 			echo -e 'INSTANCE CREATED FAILED'
 			echo -e 'ErrorCode='$(cat res.json | jq .code)
